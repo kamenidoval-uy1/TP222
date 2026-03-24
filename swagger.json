@@ -1,0 +1,174 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Blog API",
+    "description": "API backend pour la gestion des articles d’un blog",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "schemes": ["http"],
+  "paths": {
+    "/articles": {
+      "get": {
+        "summary": "Récupérer tous les articles",
+        "responses": {
+          "200": {
+            "description": "Liste des articles",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Article" }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Créer un article",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/ArticleInput" }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Article créé"
+          }
+        }
+      }
+    },
+
+    "/articles/{id}": {
+      "get": {
+        "summary": "Récupérer un article par ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Article trouvé",
+            "schema": { "$ref": "#/definitions/Article" }
+          },
+          "404": {
+            "description": "Article non trouvé"
+          }
+        }
+      },
+
+      "put": {
+        "summary": "Modifier un article",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": { "$ref": "#/definitions/ArticleInput" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Article modifié"
+          }
+        }
+      },
+
+      "delete": {
+        "summary": "Supprimer un article",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Article supprimé"
+          }
+        }
+      }
+    },
+
+    "/articles/search": {
+      "get": {
+        "summary": "Rechercher un article",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Résultat de recherche",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Article" }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "definitions": {
+    "Article": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer" },
+        "titre": { "type": "string" },
+        "contenu": { "type": "string" },
+        "auteur": { "type": "string" },
+        "date": { "type": "string", "example": "2026-03-24" },
+        "categorie": { "type": "string" },
+        "tags": { "type": "string" }
+      }
+    },
+
+    "ArticleInput": {
+      "type": "object",
+      "required": ["titre", "contenu", "auteur"],
+      "properties": {
+        "titre": {
+          "type": "string",
+          "example": "Mon article"
+        },
+        "contenu": {
+          "type": "string",
+          "example": "Contenu de l'article"
+        },
+        "auteur": {
+          "type": "string",
+          "example": "Kameni"
+        },
+        "date": {
+          "type": "string",
+          "example": "2026-03-24"
+        },
+        "categorie": {
+          "type": "string",
+          "example": "Tech"
+        },
+        "tags": {
+          "type": "string",
+          "example": "nodejs,api"
+        }
+      }
+    }
+  }
+}
